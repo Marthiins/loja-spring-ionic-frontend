@@ -12,5 +12,10 @@ export class HomePage {
   constructor(public navCtrl: NavController) {
 
   }
+//no Typescript todo elemento de uma classe, metodo ou objeto tem que ser preecendido do this.navCtrl
+login() {
+  this.navCtrl.setRoot('CategoriasPage');
+
+  }
 
 }
