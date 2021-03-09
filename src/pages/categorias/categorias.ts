@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CategoriaService } from '../../services/domain/categoria.service';
 
 /**
  * Generated class for the CategoriasPage page.
@@ -8,6 +9,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
+
+//chamar metodo do serviço para testar se estão chamando pela API
+
 @IonicPage()
 @Component({
   selector: 'page-categorias',
@@ -15,11 +19,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor
+  (public navCtrl: NavController,
+     public navParams: NavParams,
+     public categoriaSevice: CategoriaService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoriasPage');
-  }
+
+    //importante esse console.log
+    this.categoriaSevice.findAll()//Chamada assincrona no angula tem que colocar o  .subscribe e colocar uma função anônima coloco o argumento e abre e fecha {}
+      .subscribe(response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      });
+    }
 
 }
