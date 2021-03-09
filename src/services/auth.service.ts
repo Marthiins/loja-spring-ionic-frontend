@@ -2,11 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { API_CONFIG } from "../config/api.config";
 import { CredenciaisDTO } from "../models/credenciais.dto";
+import { LocalUser } from "../models/local_user";
+import { StorageService } from "./storage.service";
 
 @Injectable()
 export class AuthService {
 
-  constructor(public http: HttpClient) { //requisição email e senha do meu back no andpoint login
+  constructor(public http: HttpClient, public storage: StorageService) { //requisição email e senha do meu back no andpoint login
   }
 
   authenticate(creds : CredenciaisDTO) {
@@ -18,6 +20,18 @@ export class AuthService {
               responseType: 'text'
           });
   }
+  successfulLogin(authorizationValue : string) {
+    let tok = authorizationValue.substring(7); //tirar a palavra Barry do token reportar o string apartir do 7 caractere
+    let user : LocalUser = {
+        token: tok
+    };
+    this.storage.setLocalUser(user);//Armazenar usuario no local store
+}
+
+logout() {
+    this.storage.setLocalUser(null);
+  }
+
 }
 
 

@@ -37,7 +37,7 @@ creds : CredenciaisDTO = { //Declaração do atributo e iniciar com o objeto vaz
 login() {
   this.auth.authenticate(this.creds)
       .subscribe(response => {
-        console.log(response.headers.get('Authorization'));
+        this.auth.successfulLogin(response.headers.get('Authorization'));
         this.navCtrl.setRoot('CategoriasPage');
       },
       error => {});
