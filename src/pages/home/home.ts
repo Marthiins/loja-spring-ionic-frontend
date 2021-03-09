@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, MenuController, NavController } from 'ionic-angular';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/auth.service';
 
 
 @IonicPage()
@@ -17,7 +18,9 @@ creds : CredenciaisDTO = { //Declaração do atributo e iniciar com o objeto vaz
 };
 
 
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  constructor( public navCtrl: NavController,
+    public menu: MenuController,
+    public auth: AuthService) {
 
   }
 
@@ -32,8 +35,12 @@ creds : CredenciaisDTO = { //Declaração do atributo e iniciar com o objeto vaz
 
 //no Typescript todo elemento de uma classe, metodo ou objeto tem que ser preecendido do this.navCtrl
 login() {
-  console.log(this.creds);
-  this.navCtrl.setRoot('CategoriasPage');
+  this.auth.authenticate(this.creds)
+      .subscribe(response => {
+        console.log(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});
 
   }
 
