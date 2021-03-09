@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { API_CONFIG } from '../../config/api.config';
+import { CategoriaDTO } from '../../models/categoria.dto';
 import { CategoriaService } from '../../services/domain/categoria.service';
 
 /**
@@ -19,6 +21,10 @@ import { CategoriaService } from '../../services/domain/categoria.service';
 })
 export class CategoriasPage {
 
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+
+   items: CategoriaDTO[]; //Variavel iten
+
   constructor
   (public navCtrl: NavController,
      public navParams: NavParams,
@@ -30,7 +36,7 @@ export class CategoriasPage {
     //importante esse console.log
     this.categoriaSevice.findAll()//Chamada assincrona no angula tem que colocar o  .subscribe e colocar uma função anônima coloco o argumento e abre e fecha {}
       .subscribe(response => {
-        console.log(response);
+        this.items = response;
       },
       error => {
         console.log(error);
