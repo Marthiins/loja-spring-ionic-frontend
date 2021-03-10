@@ -50,7 +50,11 @@ login() {
         this.navCtrl.setRoot('CategoriasPage');
       },
       error => {});
+  }
 
+  signup() {
+    //console.log("passou")
+    this.navCtrl.push('SignupPage'); //nome da classe
   }
 
 }
