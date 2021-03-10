@@ -33,6 +33,15 @@ creds : CredenciaisDTO = { //Declaração do atributo e iniciar com o objeto vaz
     this.menu.swipeEnable(true);
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});
+  }
+
 //no Typescript todo elemento de uma classe, metodo ou objeto tem que ser preecendido do this.navCtrl
 login() {
   this.auth.authenticate(this.creds)
