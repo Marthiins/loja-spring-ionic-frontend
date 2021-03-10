@@ -23,8 +23,9 @@ export class MyApp {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: 'HomePage' }
+    this.pages = [ //Lista de itens do menu
+      { title: 'Profile', component: 'ProfilePage' },
+      { title: 'Categorias', component: 'CategoriasPage' }
      ];
 
   }
