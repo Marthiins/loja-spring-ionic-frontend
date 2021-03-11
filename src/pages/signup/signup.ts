@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CidadeDTO } from '../../models/cidade.dto';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeService } from '../../services/domain/cidade.service';
+import { ClienteService } from '../../services/domain/cliente.service';
 import { EstadoService } from '../../services/domain/estado.service';
 
 /**
@@ -29,7 +30,9 @@ export class SignupPage {
      public navParams: NavParams,
      public formBuilder: FormBuilder,
      public cidadeService: CidadeService,
-     public estadoService: EstadoService) {
+     public estadoService: EstadoService,
+     public clienteService: ClienteService,
+    public alertCtrl: AlertController) {
 
       this.formGroup = this.formBuilder.group({ //Mesmo atributos do formulario com o backand
         nome: ['Fernanda', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]], //Quando o atributo é de preenchimento obrigatório é so colocar Validators.required
@@ -72,7 +75,29 @@ export class SignupPage {
     }
 
   signupUser() {
-    console.log("enviou o form");
+   // console.log("this.formGroup.value"); teste para verificar se estava enviando o formulario
+    this.clienteService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      },
+      error => {});
+  }
+
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
