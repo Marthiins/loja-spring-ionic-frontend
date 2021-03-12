@@ -32,27 +32,27 @@ export class ProfilePage {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
-      .subscribe(response => {
-        this.cliente = response;
-       //Buscar a imagem
-        this.getImageIfExists();
-      },
-      error => {
-        if (error.status == 403) {
-          this.navCtrl.setRoot('HomePage'); //Redirecionar para a pagina Home
-        }
-      });
-  }
-  else {
-    this.navCtrl.setRoot('HomePage');
+        .subscribe(response => {
+          this.cliente as ClienteDTO;
+          //Buscar a imagem
+          this.getImageIfExists();
+        },
+          error => {
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage'); //Redirecionar para a pagina Home
+            }
+          });
+    }
+    else {
+      this.navCtrl.setRoot('HomePage');
 
     }
   }
   getImageIfExists() {
     this.clienteService.getImageFromBucket(this.cliente.id)
-    .subscribe(response => {
-      this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
-    },
-    error => {});
+      .subscribe(response => {
+        this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+      },
+        error => { });
   }
 }
