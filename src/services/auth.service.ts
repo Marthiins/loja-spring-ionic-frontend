@@ -4,6 +4,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { API_CONFIG } from "../config/api.config";
 import { CredenciaisDTO } from "../models/credenciais.dto";
 import { LocalUser } from "../models/local_user";
+import { CartService } from "./domain/cart.service";
 import { StorageService } from "./storage.service";
 
 
@@ -13,7 +14,10 @@ export class AuthService {
 
   jwtHelperService: JwtHelperService = new JwtHelperService(); //email para estrair do token dependencia
 
-  constructor(public http: HttpClient, public storage: StorageService) { //requisição email e senha do meu back no andpoint login
+  constructor(
+    public http: HttpClient,
+     public storage: StorageService,
+     public cartService: CartService) { //requisição email e senha do meu back no andpoint login
   }
 
   authenticate(creds : CredenciaisDTO) {
@@ -42,7 +46,8 @@ export class AuthService {
         email: this.jwtHelperService.decodeToken(tok).sub
     };
     this.storage.setLocalUser(user);//Armazenar usuario no local store
-}
+    this.cartService.createOrClearCart();
+  }
 
 logout() {
     this.storage.setLocalUser(null);
