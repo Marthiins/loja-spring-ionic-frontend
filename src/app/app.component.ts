@@ -33,6 +33,7 @@ export class MyApp {
     this.pages = [ //Lista de itens do menu
       { title: 'Profile', component: 'ProfilePage' },
       { title: 'Categorias', component: 'CategoriasPage' },
+      { title: 'Carrinho', component: 'CartPage'},
       { title: 'Logout', component: ''}
      ];
 
